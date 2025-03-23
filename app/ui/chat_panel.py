@@ -14,22 +14,32 @@ class MessageWidget(QWidget):
     
     def setup_ui(self, message, is_user, image):
         """UIの初期化"""
-        layout = QVBoxLayout()
-        layout.setContentsMargins(10, 10, 10, 10)
+        # メインレイアウト
+        main_layout = QVBoxLayout(self)
+        main_layout.setContentsMargins(10, 10, 10, 10)
         
-        # メッセージの背景色とアライメントを設定
+        # 水平レイアウト - メッセージの左右位置を調整するため
+        h_layout = QHBoxLayout()
+        
+        # メッセージウィジェットのコンテナ
+        msg_container = QWidget()
+        msg_layout = QVBoxLayout(msg_container)
+        msg_layout.setContentsMargins(10, 10, 10, 10)
+        
+        # メッセージの背景色を設定
         if is_user:
-            self.setStyleSheet("background-color: #e1f5fe; color: #000000; border-radius: 10px;")
-            layout.setAlignment(Qt.AlignRight)
+            msg_container.setStyleSheet("background-color: #e1f5fe; color: #000000; border-radius: 10px;")
         else:
-            self.setStyleSheet("background-color: #66bb6a; color: #000000; border-radius: 10px;")
-            layout.setAlignment(Qt.AlignLeft)
+            msg_container.setStyleSheet("background-color: #66bb6a; color: #000000; border-radius: 10px;")
         
         # テキストメッセージ
         message_label = QLabel(message)
         message_label.setWordWrap(True)
         message_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
-        layout.addWidget(message_label)
+        # メッセージラベルが適切な幅を持つように設定
+        message_label.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        message_label.setMinimumWidth(100)
+        msg_layout.addWidget(message_label)
         
         # 画像があれば表示
         if image:
@@ -42,7 +52,7 @@ class MessageWidget(QWidget):
                     Qt.KeepAspectRatio,
                     Qt.SmoothTransformation
                 ))
-                layout.addWidget(image_label)
+                msg_layout.addWidget(image_label)
             elif isinstance(image, QPixmap) or isinstance(image, QImage):
                 # ピクセルマップまたはQImage
                 image_label = QLabel()
@@ -55,9 +65,20 @@ class MessageWidget(QWidget):
                     Qt.KeepAspectRatio,
                     Qt.SmoothTransformation
                 ))
-                layout.addWidget(image_label)
+                msg_layout.addWidget(image_label)
         
-        self.setLayout(layout)
+        # コンテナの最大幅を制限
+        msg_container.setMaximumWidth(500)
+        
+        # 左右のスペーサーを使って位置を調整
+        if is_user:
+            h_layout.addStretch(1)  # 左側にスペーサーを追加（右寄せ）
+            h_layout.addWidget(msg_container)
+        else:
+            h_layout.addWidget(msg_container)
+            h_layout.addStretch(1)  # 右側にスペーサーを追加（左寄せ）
+        
+        main_layout.addLayout(h_layout)
 
 class ChatPanel(QWidget):
     """チャットパネルコンポーネント"""
