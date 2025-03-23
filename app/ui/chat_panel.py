@@ -19,10 +19,10 @@ class MessageWidget(QWidget):
         
         # メッセージの背景色とアライメントを設定
         if is_user:
-            self.setStyleSheet("background-color: #e1f5fe; border-radius: 10px;")
+            self.setStyleSheet("background-color: #e1f5fe; color: #000000; border-radius: 10px;")
             layout.setAlignment(Qt.AlignRight)
         else:
-            self.setStyleSheet("background-color: #f5f5f5; border-radius: 10px;")
+            self.setStyleSheet("background-color: #66bb6a; color: #000000; border-radius: 10px;")
             layout.setAlignment(Qt.AlignLeft)
         
         # テキストメッセージ
