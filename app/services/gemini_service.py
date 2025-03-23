@@ -112,22 +112,24 @@ class GeminiService:
                                     print(f"デコード後バイト長: {len(image_bytes)}")
                                     print(f"デコード後バイト先頭: {image_bytes[:20]}")
                                     
-                                    # デバッグ用ファイル保存
-                                    debug_path = os.path.join(Config.SAVE_DIRECTORY, f"debug_raw.{ext}")
-                                    with open(debug_path, "wb") as f:
-                                        f.write(image_bytes)
-                                    print(f"デバッグ用に生データを保存: {debug_path}")
+                                    # デバッグ用ファイル保存（設定がオンの場合のみ）
+                                    if Config.DEBUG_SAVE_IMAGES:
+                                        debug_path = os.path.join(Config.SAVE_DIRECTORY, f"debug_raw.{ext}")
+                                        with open(debug_path, "wb") as f:
+                                            f.write(image_bytes)
+                                        print(f"デバッグ用に生データを保存: {debug_path}")
                                     
                                     # 画像を開く
                                     result_image = Image.open(io.BytesIO(image_bytes))
                                     print(f"画像を正常に開きました: サイズ={result_image.size}, モード={result_image.mode}")
                                     result["image"] = result_image
                                     
-                                    # デバッグ用に保存
-                                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                                    debug_image_path = os.path.join(Config.SAVE_DIRECTORY, f"debug_image_{timestamp}.{ext}")
-                                    result_image.save(debug_image_path)
-                                    print(f"デバッグ用に画像を保存: {debug_image_path}")
+                                    # デバッグ用に保存（設定がオンの場合のみ）
+                                    if Config.DEBUG_SAVE_IMAGES:
+                                        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                                        debug_image_path = os.path.join(Config.SAVE_DIRECTORY, f"debug_image_{timestamp}.{ext}")
+                                        result_image.save(debug_image_path)
+                                        print(f"デバッグ用に画像を保存: {debug_image_path}")
                                     
                                 except Exception as img_err:
                                     print(f"画像処理エラー: {img_err}")
@@ -136,7 +138,7 @@ class GeminiService:
                                     
                                     # バイナリ形式で直接保存を試みる（サンプルコードと同様）
                                     try:
-                                        if isinstance(image_bytes, bytes):
+                                        if isinstance(image_bytes, bytes) and Config.DEBUG_SAVE_IMAGES:
                                             bin_path = os.path.join(Config.SAVE_DIRECTORY, f"direct_binary_{timestamp}.{ext}")
                                             with open(bin_path, "wb") as f:
                                                 f.write(image_bytes)
@@ -173,7 +175,7 @@ class GeminiService:
                     
                     # 設定
                     generation_config = {
-                        "temperature": 0.4,
+                        "temperature": 1.0,
                         "top_p": 0.95,
                         "top_k": 40,
                         "max_output_tokens": 8192,
@@ -224,11 +226,12 @@ class GeminiService:
                                     print(f"バックアップ画像を取得: サイズ={backup_image.size}, モード={backup_image.mode}")
                                     result["image"] = backup_image
                                     
-                                    # デバッグ用に保存
-                                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                                    debug_path = os.path.join(Config.SAVE_DIRECTORY, f"backup_image_{timestamp}.png")
-                                    backup_image.save(debug_path)
-                                    print(f"バックアップ画像を保存: {debug_path}")
+                                    # デバッグ用に保存（設定がオンの場合のみ）
+                                    if Config.DEBUG_SAVE_IMAGES:
+                                        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                                        debug_path = os.path.join(Config.SAVE_DIRECTORY, f"backup_image_{timestamp}.png")
+                                        backup_image.save(debug_path)
+                                        print(f"バックアップ画像を保存: {debug_path}")
                                     
                                 except Exception as img_err:
                                     print(f"バックアップ画像処理エラー: {img_err}")

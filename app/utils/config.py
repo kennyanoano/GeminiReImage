@@ -17,6 +17,9 @@ class Config:
     APP_NAME = "GeminiImgEditor"
     APP_VERSION = "1.0.0"
     
+    # デバッグ設定
+    DEBUG_SAVE_IMAGES = False  # デバッグ用画像保存を無効化（デフォルト）
+    
     # ファイル保存設定
     # 画像保存ディレクトリ
     SAVE_DIRECTORY = os.path.join(os.path.expanduser("~"), "Pictures", "GeminiImgEditor")
