@@ -1,27 +1,8 @@
 # GeminiImgEditor
 
 Gemini APIを使用した会話型画像編集アプリケーション
+履歴とかまだうまくいってない
 
-## 機能
-
-- 会話形式で画像編集が可能
-- 編集履歴をスレッドとして保存
-- 自動保存機能
-- 直感的なUI
-
-## インストール
-
-```bash
-# 依存関係のインストール
-pip install -r requirements.txt
-
-# 環境変数の設定
-# Windowsの場合:
-set GOOGLE_API_KEY=あなたのGemini APIキー
-
-# .envファイルを使用する場合は、プロジェクトルートに.envファイルを作成し、以下の内容を追加:
-# GOOGLE_API_KEY=あなたのGemini APIキー
-```
 
 ## 使用方法
 
