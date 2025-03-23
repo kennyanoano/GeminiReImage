@@ -11,7 +11,7 @@ class Config:
     API_KEY = os.environ.get("GOOGLE_API_KEY")
     
     # モデル設定
-    MODEL_NAME = "gemini-2.0-flash-exp"
+    MODEL_NAME = "gemini-2.0-flash-exp-image-generation"
     
     # アプリケーション設定
     APP_NAME = "GeminiImgEditor"

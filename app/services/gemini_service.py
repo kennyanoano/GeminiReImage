@@ -55,7 +55,7 @@ class GeminiService:
         
         try:
             # サンプルコードと同じモデル名を使用
-            model_name = "gemini-2.0-flash-exp"
+            model_name = "gemini-2.0-flash-exp-image-generation"
             print(f"使用モデル: {model_name}")
             
             # 結果格納用
@@ -163,7 +163,7 @@ class GeminiService:
                 print("画像が取得できなかったため、画像生成専用モデルで再試行します")
                 try:
                     # バックアップはサンプルコードとは異なるAPIを使用
-                    backup_model_name = "gemini-2.0-flash-exp-image-generation"
+                    backup_model_name = "gemini-2.0-flash-exp-image-generation-image-generation"
                     print(f"バックアップモデル使用: {backup_model_name}")
                     
                     # genaiモジュールを直接使用
